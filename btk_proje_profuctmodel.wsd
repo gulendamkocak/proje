@@ -1,0 +1,24 @@
+class ProductHelper:
+    
+    @staticmethod
+    def create_item_from_text(file_path):
+        products = []
+        with open(file_path, 'r') as file:
+            for line in file:
+                name, price, quantity = line.strip().split(',')
+                products.append(Product(name, float(price), int(quantity)))
+        return products
+    
+    @staticmethod
+    def get_total_balance(products):
+        total_balance = sum(p.get_total_price() for p in products)
+        total_balance_with_vat = total_balance * 1.20  # %20 KDV eklenmiş hali
+        return total_balance_with_vat
+
+# Testing ProductHelper class
+products = ProductHelper.create_item_from_text('Products.txt')
+for product in products:
+    print(product)
+
+print("Total Balance with VAT:", ProductHelper.get_total_balance(products))
+
